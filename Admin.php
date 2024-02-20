@@ -26,7 +26,6 @@
             padding: 8px 16px;
             font-size: 16px;
             cursor: pointer;
-            /* Updated button color to a comfortable darker red */
             background-color: #C30000;
             color: #fff;
             border: none;
@@ -56,20 +55,20 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: transparent; /* Set background to transparent */
-            color: #4CAF50; /* Set text color to green */
-            border: 2px solid #4CAF50; /* Set border to green */
+            background-color: transparent;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
             border-radius: 4px;
         }
         button.downloadButton {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #808080; /* Gray background color */
+            background-color: #808080;
             color: #fff;
             border: none;
             border-radius: 4px;
-            border: 2px solid #808080; /* Border color matching the background */
+            border: 2px solid #808080;
         }
         form {
             margin-bottom: 20px;
@@ -104,7 +103,6 @@
         canvas {
             margin-top: 20px;
             max-width: 100%;
-            /* Added background color and border-radius to the chart */
             background-color: #f9f9f9;
             border-radius: 8px;
         }
@@ -119,18 +117,17 @@
 </head>
 <body>
   <?php
-  session_start(); // Start session to access user data
+  session_start();
   include("connect.php");
 
   // Check if the user is logged in
   if (!isset($_SESSION['FullName'])) {
-      header("Location: login.php"); // Redirect to login page if not logged in
+      header("Location: login.php"); 
       exit();
   }
 
   $FullName = $_SESSION['FullName'];
 
-  // Fetch gender options from the database
   $queryGenderOptions = "SELECT DISTINCT gender FROM users";
   $resultGenderOptions = mysqli_query($conn, $queryGenderOptions);
 
@@ -141,15 +138,12 @@
           $genderOptions[] = $row;
       }
   } else {
-      // Handle query error (you can modify this part based on your error handling preferences)
       echo "Error fetching gender options: " . mysqli_error($conn);
       exit();
   }
 
-  // Build the query based on the filters
   $query = "SELECT Engineer, COUNT(*) AS TotalTasks FROM tasks WHERE 1=1";
 
-  // Check if the form is submitted with date filters
   $dateFrom = isset($_POST['date_from']) ? $_POST['date_from'] : '';
   $dateTo = isset($_POST['date_to']) ? $_POST['date_to'] : '';
   if (!empty($dateFrom)) {
@@ -159,7 +153,6 @@
       $query .= " AND Date <= '$dateTo'";
   }
 
-  // Check if the form is submitted with a gender filter
   $genderFilter = isset($_POST['gender']) ? $_POST['gender'] : '';
   if (!empty($genderFilter)) {
       $query .= " AND Engineer IN (SELECT FullName FROM users WHERE gender = '$genderFilter')";
