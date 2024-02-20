@@ -7,22 +7,17 @@ if (!isset($_SESSION['FullName'])) {
     exit();
 }
 
-$engineer = $_GET['engineer']; // Retrieve the engineer's name from the URL parameter
-
+$engineer = $_GET['engineer'];
 $query = "SELECT * FROM tasks WHERE Engineer = ?";
 
-// Check if the form is submitted with date filters
 $dateFrom = isset($_POST['date_from']) ? $_POST['date_from'] : '';
 $dateTo = isset($_POST['date_to']) ? $_POST['date_to'] : '';
 
 if (!empty($dateFrom) && !empty($dateTo)) {
-    // If both date fields are provided, apply date range filtering
     $query .= " AND Date BETWEEN ? AND ?";
 } elseif (!empty($dateFrom)) {
-    // If only 'from' date is provided, apply filtering for tasks after that date
     $query .= " AND Date >= ?";
 } elseif (!empty($dateTo)) {
-    // If only 'to' date is provided, apply filtering for tasks before that date
     $query .= " AND Date <= ?";
 }
 
@@ -30,7 +25,6 @@ $query .= " ORDER BY Date DESC";
 
 $stmt = mysqli_prepare($conn, $query);
 
-// Bind parameters based on the provided date range
 if (!empty($dateFrom) && !empty($dateTo)) {
     mysqli_stmt_bind_param($stmt, "sss", $engineer, $dateFrom, $dateTo);
 } elseif (!empty($dateFrom)) {
@@ -60,12 +54,11 @@ if (isset($_GET['delete'])) {
     <meta charset="utf-8">
     <title>Engineer Tasks</title>
     <style>
-        /* Add your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            margin: 20px; /* Add margin to the edges of the page */
-            padding-top: 60px; /* Add padding-top to accommodate the fixed header */
+            margin: 20px; 
+            padding-top: 60px;
         }
 
         header {
@@ -78,7 +71,7 @@ if (isset($_GET['delete'])) {
             justify-content: space-between;
             align-items: center;
             position: fixed;
-            width: 100vw; /* Set width to 100% of the viewport width */
+            width: 100vw;
             left: 0;
             top: 0;
             z-index: 1000;
@@ -97,9 +90,9 @@ if (isset($_GET['delete'])) {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: transparent; /* Set background to transparent */
-            color: #4CAF50; /* Set text color to green */
-            border: 2px solid #4CAF50; /* Set border to green */
+            background-color: transparent;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
             border-radius: 4px;
         }
         header button {
@@ -124,7 +117,7 @@ if (isset($_GET['delete'])) {
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 80px; /* Adjust margin to ensure content below header */
+            margin-top: 80px;
         }
 
         th, td {
