@@ -1,7 +1,6 @@
 <?php
 @include 'connect.php';
 
-// Check if the form is submitted
 if (isset($_POST['submit'])) {
     // Retrieve form data
     $name = mysqli_real_escape_string($conn, $_POST['name']);
@@ -11,7 +10,6 @@ if (isset($_POST['submit'])) {
     $userType = mysqli_real_escape_string($conn, $_POST['user_type']);
     $Gender = isset($_POST['Gender']) ? mysqli_real_escape_string($conn, $_POST['Gender']) : '';
 
-    // Validate the form data (you may want to add more validation)
     $error = [];
     if (empty($name) || empty($Username) || empty($password) || empty($cpassword) || empty($userType) || empty($Gender)) {
         $error[] = "يرجى ملء جميع الحقول.";
@@ -22,7 +20,6 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    // If no validation errors, proceed with registration
     if (empty($error)) {
         // Set isManager based on user_type
         $isManager = ($userType == 'engineer') ? 0 : 1; // Assuming 0 for 'فني' and 1 for 'مسؤول'
@@ -32,7 +29,6 @@ if (isset($_POST['submit'])) {
                   VALUES ('$name', '$Username', '$password', '$Gender', '$isManager')";
 
         if (mysqli_query($conn, $query)) {
-            // Registration successful, you can redirect the user to a success page or login page
             header("Location: login.php");
             exit();
         } else {
