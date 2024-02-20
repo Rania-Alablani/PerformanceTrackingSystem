@@ -1,7 +1,7 @@
 <?php
 include("connect.php");
 
-$success_message = ''; // Initialize the success message variable
+$success_message = ''; 
 
 if (isset($_POST['update_task'])) {
     $update_task_no = $_POST['update_task_no'];
